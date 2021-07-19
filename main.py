@@ -1,8 +1,10 @@
+import pymongo
 import pandas as pd
-import numpy as np
-import json
+import gridfs
 
-file = "raw\\K3241.K03200Y0.D10612.ESTABELE"
+connection = pymongo.MongoClient("mongodb://127.0.0.1:27017/")
+
+file = "raw\\K3241.K03200Y0.D10612.csv"
 
 headers = ["cnpj_basico", "cnpj_ordem", "cnpj_dv", "id_matriz_filial", "nome_fantasia","situacao_cadastral",
            "data_situacao_cadastral", "motivo_situacao_cadastral", "nome_cidade_exterior", "pais",
@@ -19,9 +21,10 @@ types = {
     "fax": object, "correio_eletronico": object, "situacao_especial": object, "data_situacao_especial": 'Int64'
 }
 
-
-df = pd.read_csv(file, names=headers, dtype=types, header=None, sep=';')
-df = df.replace(np.nan, '')
-
+df = pd.read_csv(file, names=headers, dtype=types, header=None, sep=';', low_memory=False)
 df_json = df.to_json(orient='index')
-df_json = json.loads(df_json)
+
+db = connection["speedio"]
+
+fs = gridfs.GridFS(db, collection='estabelecimentos1')
+x = fs.put(df_json.encode('ascii'))
