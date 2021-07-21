@@ -1,6 +1,7 @@
 import pymongo
 import pandas as pd
 import subprocess
+import tempfile
 import time
 import datetime
 
@@ -9,7 +10,7 @@ time1 = time.time()
 # Connection with MongoDB client via PyMongo
 connection = pymongo.MongoClient("mongodb://127.0.0.1:27017/")
 
-file = "raw\\K3241.K03200Y0.D10612.csv"
+file = "raw\\yK3241.K03200Y0.D10612.csv"
 
 # The CSV file doesn't has headers, so we need to add them
 headers = ["cnpj_basico", "cnpj_ordem", "cnpj_dv", "id_matriz_filial", "nome_fantasia","situacao_cadastral",
@@ -33,12 +34,13 @@ types = {
 df = pd.read_csv(file, names=headers, dtype=types, header=None, sep=';')
 df_json = df.to_json(orient='records')
 
-with open("buffer.json", 'w') as f:
-    f.write(df_json)
-
-# Uses subprocess.run() method to call the OS Terminal and run the mongoimport command line tool.
-# numInsertionWorkers => number of threads working on the task. Increase it depending on your machine's processor.
-subprocess.run(f"mongoimport -d speedio -c test --drop --file buffer.json --jsonArray --numInsertionWorkers 4 ", shell=True)
+# Creates temporary buffer file to store the json data
+with tempfile.NamedTemporaryFile("w+", buffering=8192, delete=False) as tf:
+    tf.write(df_json)
+    tf.flush()
+    # subprocess.run() method is used to call the OS Terminal and run the mongoimport command line tool.
+    # numInsertionWorkers => number of threads working on the task. Increase it depending on your processor performance.
+    subprocess.run(f"mongoimport -d speedio -c test --drop --file {tf.name} --jsonArray --numInsertionWorkers 4 ", shell=True)
 
 # Tracking code performance
 time2 = time.time()
