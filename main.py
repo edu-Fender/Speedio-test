@@ -1,6 +1,10 @@
 import pymongo
 import pandas as pd
-import gridfs
+import subprocess
+import time
+import datetime
+
+time1 = time.time()
 
 # Connection with MongoDB client via PyMongo
 connection = pymongo.MongoClient("mongodb://127.0.0.1:27017/")
@@ -27,13 +31,17 @@ types = {
 # Specifying dtypes is crucial to make large data processing faster, as Pandas can only determine dtypes after
 # reading the whole DataFrame
 df = pd.read_csv(file, names=headers, dtype=types, header=None, sep=';')
-df_json = df.to_json(orient='index')
+df_json = df.to_json(orient='records')
 
-db = connection["speedio"]
+with open("buffer.json", 'w') as f:
+    f.write(df_json)
 
-# As the maximum size of document insertion on MongoDB is 16MB (and our file is way too big), we need to use GridFS to
-# divide the whole document into chunks of data to make in more manageable
-fs = gridfs.GridFS(db, collection='estabelecimentos2')
+# Uses subprocess.run() method to call the OS Terminal and run the mongoimport command line tool.
+# numInsertionWorkers => number of threads working on the task. Increase it depending on your machine's processor.
+subprocess.run(f"mongoimport -d speedio -c test --drop --file buffer.json --jsonArray --numInsertionWorkers 4 ", shell=True)
 
-# GridFS only accepts binary data insertion, so we need to convert it
-x = fs.put(df_json.encode('ascii'))
+# Tracking code performance
+time2 = time.time()
+run_time = time2 - time1
+run_time = datetime.timedelta(seconds=run_time)
+print(f"\n Runtime: {run_time}")
