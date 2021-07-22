@@ -1,17 +1,17 @@
-# ---------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
 # This script is responsible for reading and retrieving MongoDB desired data.
-# ATTENTION: This is a very hardware demanding script, so it may run for a while.
-# ---------------------------------------------------------------------------------
-
+# ----------------------------------------------------------------------------
 import pymongo
 import pandas as pd
 import collections
 
-# Connection with MongoDB client via PyMongo
-connection = pymongo.MongoClient("mongodb://127.0.0.1:27017/")
+# TODO: 4. Ler os dados do db e obter as seguintes informações:
+connection = pymongo.MongoClient("mongodb://127.0.0.1:27017/")  # Connection string
 
 
+# Main func
 def read_mongodb():
+
     db = connection["speedio"]
     col = db["estabelecimentos"]
 
@@ -23,7 +23,7 @@ def read_mongodb():
               f"process is running properly. \n{e}.")
         return
 
-    # TODO: qual % das empresas estão ativas (SITUAÇÃO CADASTRAL)
+    # TODO: 4.a. qual % das empresas estão ativas (SITUAÇÃO CADASTRAL)
     # Counts every mongodb documents, then counts only the ones where "situacao_cadastral" is 2
     query1 = col.count_documents({})
     query2 = col.count_documents({"situacao_cadastral": 2})
@@ -34,9 +34,9 @@ def read_mongodb():
     # Creates Pandas DataFrame with data to be entered into excel file later
     df1 = pd.DataFrame([f"{percentage}%"], columns=["Porcentagem das Empresas em Atividade"])
 
-    # TODO: Quantas empresas do setor de restaurantes foram abertas em cada ano ?
-    # Returns only the first 4 digits (year) of data_inicio_atividade
-    # for all the fields where "cnae_principal" starts with 561
+    # TODO: 4.b. Quantas empresas do setor de restaurantes foram abertas em cada ano ?
+    # Returns only the first 4 digits (year) of data_inicio_atividade for all the fields
+    # where "cnae_principal" starts with 561
     query3 = col.aggregate([
         {"$match": {"cnae_principal":
                         {"$gte": 5610000, "$lte": 5619999}}},
@@ -67,6 +67,7 @@ def read_mongodb():
         print(f"\nERROR: Please close Excel and try again ({e}).")
         return
 
+    # TODO: 5. Exportar os dados do ponto 4 para um CSV (BONUS POINTS: exportar para formato excel)
     df1.to_excel(writer, sheet_name="sheet1", index=False)
     df2.to_excel(writer, sheet_name="sheet1", startcol=2, index=False)
 
