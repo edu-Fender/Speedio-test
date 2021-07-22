@@ -42,6 +42,6 @@ def insert_mongodb():
         tf.flush()
         # subprocess.run() method is used to call the OS Terminal and run the mongoimport command line tool.
         # numInsertionWorkers => number of threads working on the task. Increase it depending on your system specs.
-        subprocess.run(f"mongoimport --db speedio --collection estabelecimentos --file {tf.name} --jsonArray "
-                       f"--numInsertionWorkers 4 ", shell=True)
+        subprocess.run(fr"mongoimport --db speedio --collection estabelecimentos --file {tf.name}"
+                       fr"--jsonArray --numInsertionWorkers 4 ", shell=True)
         tf.close()
