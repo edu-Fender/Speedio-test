@@ -1,16 +1,28 @@
 # ---------------------------------------------------------------------------------
 # This script is responsible for inserting the CSV data into the MongoDB database.
 # ---------------------------------------------------------------------------------
-import pandas as pd
-import subprocess
+from connection import connect
 import tempfile
 import os
+import subprocess
+import pandas as pd
 
 # TODO: 1. Código ler um dos arquivos em CSVs Dados Abertos CNPJ ESTABELECIMENTO XX da receita
 csv_file = "raw\\K3241.K03200Y0.D10612.csv"
 
 
-def insert_mongodb():
+def write_mongo():
+
+    db = connect("speedio")
+
+    # Check if collection already exists
+    if "estabelecimentos" in db.list_collection_names():
+        override = input("\nCAUTION: Collection \"estabelecimentos\" already exists. Do you want to override it? y/n: ")
+        if override == 'y' or ' y':
+            pass
+        else:
+            print("Quitting aplication...")
+            quit()
 
     # The CSV file doesn't has headers, so we need to add them
     headers = ["cnpj_basico", "cnpj_ordem", "cnpj_dv", "id_matriz_filial", "nome_fantasia", "situacao_cadastral",
@@ -40,10 +52,8 @@ def insert_mongodb():
     with tempfile.NamedTemporaryFile("w+", buffering=8192, delete=False) as tf:
         tf.write(df_json)
         tf.flush()
-        # subprocess.run() method is used to call the OS Terminal and run the mongoimport command line tool.
+        # subprocess.run() method is used to call the OS Terminal and run the mongoimport command line tool
         subprocess.run(fr"mongoimport --db speedio --collection estabelecimentos --drop --file {tf.name}"
-                       fr" --jsonArray --numInsertionWorkers {os.cpu_count()} ", shell=True)
-
-        tf.close()
+                       f"\t --jsonArray --numInsertionWorkers {os.cpu_count()} ", shell=True)
 
     return True  # If everything went good, returns True

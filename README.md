@@ -25,8 +25,7 @@ O programa levou em média 5~6 minutos para finalizar a execução de acordo com
 
 ***ATENÇÃO:*** O desempenho pode váriar de acordo com o a máquina uitilizada. Quanto mais potente o processador e mais memória RAM disponível, melhor. É extremamente recomendável que o sistema possua um SSD.
 
-## Observações:!
-
+## Observações:
 
 Este programa foi desenvolvido e testado no Windows 10. O funcionamento em outros Sistemas Operacionais não é garantido.
 

@@ -2,7 +2,7 @@
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 
 # User-specific stuff
-.idea/**/workspace.xml
+.git /**/workspace.xml
 .idea/**/tasks.xml
 .idea/**/usage.statistics.xml
 .idea/**/dictionaries
@@ -74,10 +74,10 @@ fabric.properties
 .idea/caches/build_file_checksums.ser
 
 # Others
-test.py
-geoscript.py
-google-request.py
-queries.json
+.idea/*
+__pycache__/*
+gitignore/*
 raw/K3241.K03200Y0.D10612.csv
 raw/xK3241.K03200Y0.D10612.csv
 raw/yK3241.K03200Y0.D10612.csv
+~$empresas.xlsx

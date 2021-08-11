@@ -1,25 +1,16 @@
 # ----------------------------------------------------------------------------
 # This script is responsible for reading and retrieving MongoDB desired data.
 # ----------------------------------------------------------------------------
-import pymongo
-import pandas as pd
+from connection import connect
 import collections
+import pandas as pd
+
 
 # TODO: 4. Ler os dados do db e obter as seguintes informações:
-connection = pymongo.MongoClient("mongodb://127.0.0.1:27017/")  # Connection string
+def read_mongo():
 
-
-def read_mongodb():
-
-    db = connection["speedio"]
+    db = connect("speedio")
     col = db["estabelecimentos"]
-
-    try:  # Connection test
-        col.find_one()
-    except Exception as e:
-        print(f"\nERROR: Please check your connection string on Speedio-test/read_mongodb.py and make sure mongod.exe"
-              f" process is running properly. \n{e}.")
-        return
 
     # TODO: 4.a. qual % das empresas estão ativas (SITUAÇÃO CADASTRAL)
     # Counts every mongodb documents, then counts only the ones where "situacao_cadastral" is 2
