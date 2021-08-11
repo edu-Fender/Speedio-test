@@ -5,15 +5,16 @@ Desafio Speedio para a vaga de Ciência de Dados. Resultado final do projeto `Sp
 
 ## Requisitos:
 
-- Este projeto utiliza o comando de terminal `mongoimport`, que precisa ser instalado separadamente do **MongoDB**. Link para download: [MongoDB Database Tools](https://www.mongodb.com/try/download/database-tools/ "MongoDB Database Tools"). Depois de instalado o conjunto de ferramentas, siga uma das seguintes opções:
+- Este projeto utiliza a ferramenta de terminal `mongoimport`, que precisa ser instalada separadamente do **MongoDB**. Link para download: [MongoDB Database Tools](https://www.mongodb.com/try/download/database-tools/ "MongoDB Database Tools"). Depois de instalada a ferramenta, siga uma das duas seguintes opções:
 
-    - Adicionar o caminho do diretório do arquivo recém istalado ***mongoimport.exe*** a variável de ambiente PATH. Obs: Certifique-se de que o caminho do arquivoestá correto. Exemplo:  **C:\ProgramFiles\MongoDB\Tools\100\bin**
-    - Substituir o comando `mongoimport` no script `Speedio-test/insert_mongodb.py (linha 44)` pelo caminho completo do arquivo recém istalado ***mongoimport.exe***. Exemplo:
-<p align="center"><img src="https://user-images.githubusercontent.com/48140546/127712741-dad3a878-fad2-4e63-8c1b-38e43d3e8546.png"></p>
+    - Adicionar o caminho do arquivo ***mongoimport.exe*** a variável de ambiente PATH. Obs: Certifique-se de que o caminho do arquivo está correto. Exemplo:  **C:\ProgramFiles\MongoDB\Tools\100\bin**
+    - Substituir o comando `mongoimport` no script `Speedio-test/writer.py (linha 56)` pelo caminho completo do arquivo ***mongoimport.exe***. Exemplo (ANTES/DEPOIS):
+<p align="center"><img src="https://user-images.githubusercontent.com/48140546/128960750-9ee00663-3a78-4382-a51b-4e189263514d.png"></p>
+<p align="center"><img src="https://user-images.githubusercontent.com/48140546/128960708-ce96f28f-0f6c-4f7e-b904-2cb3c184181b.png"></p>
 
 - Certifique-se de instalar as libs presentes no arquivo `requirements.txt` utilizando o comando `pip install -r requirements.txt` no terminal.
 - Finalmente, extraia o zip contendo o arquivo CSV a ser processado no diretório `Speedio-test/raw`. Garanta que o nome do arquivo seja ***K3241.K03200Y0.D10612.csv***.
-- Rode o script `Speedio-test/main.py` e aguarde a execução do código. ***Obs***: certifique-se que o **MongoDB** está instalado e rodando corretamente!
+- Rode o script `Speedio-test/main.py` e aguarde a execução do código. ***Obs***: certifique-se que o **MomgoDB** está rodando corretamente!
 
 ## Performance:
 O programa levou em média 5~6 minutos para finalizar a execução de acordo com os testes realizados. A máquina utilizada para rodar os testes tem as seguintes especificações: 
@@ -23,7 +24,7 @@ O programa levou em média 5~6 minutos para finalizar a execução de acordo com
 - Memória: 8GB DDR4
 - Disco: SSD 240GB
 
-***ATENÇÃO:*** O desempenho pode váriar de acordo com o a máquina uitilizada. Quanto mais potente o processador e mais memória RAM disponível, melhor. É extremamente recomendável que o sistema possua um SSD.
+***ATENÇÃO:*** O desempenho pode váriar de acordo com o a máquina uitilizada. Quanto mais potente o processador e mais memória RAM disponível, melhor. Também é extremamente recomendável o uso de um SSD no lugar do HD.
 
 ## Observações:
 
